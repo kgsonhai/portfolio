@@ -6,9 +6,12 @@ import {
 import { motion } from "framer-motion";
 import "react-vertical-timeline-component/style.min.css";
 import { styles } from "../styles";
-import { experiences } from "../constants";
 import { SectionWrapper } from "../hoc";
 import { download, downloadHover, resume } from "../assets";
+import { useEffect } from "react";
+import { client } from "../api/client";
+import { useState } from "react";
+import { icon, projectImages } from "../constants";
 
 const ExperienceCard = ({ experience }) => (
   <VerticalTimelineElement
@@ -84,9 +87,35 @@ const ExperienceCard = ({ experience }) => (
 );
 
 const Experience = () => {
+  const [experiences, setExperiences] = useState([]);
   const handleDownloadMyCV = () => {
     alert("Please contact me if you interested in my CV");
   };
+
+  const fetchExperiences = async () => {
+    try {
+      const result = await client.get("/experiences");
+      const updatedResult = result.map((item, index) => {
+        const updatedItem = { ...item, icon: icon[index] };
+
+        if (updatedItem.projects) {
+          updatedItem.projects = updatedItem.projects.map((project, i) => ({
+            ...project,
+            img: projectImages?.[index]?.[i],
+          }));
+        }
+
+        return updatedItem;
+      });
+      setExperiences(updatedResult);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchExperiences();
+  }, []);
 
   return (
     <div id="experiences">

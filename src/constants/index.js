@@ -131,6 +131,16 @@ const technologies = [
   },
 ];
 
+const icon = [vku, iotlink, stdio, nals, kms];
+
+const projectImages = [
+  [],
+  [map4d],
+  [bidu],
+  [uretail, smartsenior, management],
+  [syngenx],
+];
+
 const experiences = [
   {
     title: "Bachelor's Degree",
@@ -326,4 +336,4 @@ const projects = [
   },
 ];
 
-export { services, technologies, experiences, projects };
+export { services, technologies, experiences, projects, icon, projectImages };
